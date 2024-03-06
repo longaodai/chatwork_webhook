@@ -19,4 +19,4 @@ jobs:
 
       - name: SSH to server and pull code
         run: |
-          ssh -o StrictHostKeyChecking=no -A ohioncom@103.106.105.141 'ls'
+          ssh -o StrictHostKeyChecking=no -A ohioncom@103.106.105.141 'cd test-deploy.hioncoding.com & git pull origin'
