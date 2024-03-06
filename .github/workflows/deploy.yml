@@ -9,6 +9,18 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
+
+      - name: Copy repository contents via scp
+        uses: appleboy/scp-action@master
+        env:
+          HOST: ${{ secrets.HOST }}
+          USERNAME: ${{ secrets.USERNAME }}
+          PORT: ${{ secrets.PORT }}
+          KEY: ${{ secrets.SSHKEY }}
+        with:
+          source: "."
+          target: "/home/ohioncom/test"
+
       - name: Executing remote command
         uses: appleboy/ssh-action@master
         with:
