@@ -15,7 +15,7 @@ jobs:
       - name: Setup SSH key
         uses: webfactory/ssh-agent@v0.5.3
         with:
-          ssh-private-key: ${{ secrets.SSH }}
+          ssh-private-key: ${{ secrets.SSHKEY }}
 
       - name: SSH to server and pull code
         run: |
