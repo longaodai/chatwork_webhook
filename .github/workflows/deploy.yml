@@ -15,7 +15,7 @@ jobs:
       - name: Setup SSH key
         uses: longaodai/ssh@v1.0.5
         with:
-          ssh-private-key: ${{ secrets.SSHKEY }}
+          # ssh-private-key: ${{ secrets.SSHKEY }}
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
