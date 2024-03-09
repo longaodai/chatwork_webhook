@@ -18,7 +18,7 @@ jobs:
           ssh-private-key: ${{ secrets.SSHKEY }}
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
-          ssh_key_path: id_rsa
+          password: ${{ secrets.PASSWORD }}
           command: 'ls -l'
 
       # - name: SSH to server and pull code
