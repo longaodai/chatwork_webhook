@@ -13,10 +13,14 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Setup SSH key
-        uses: webfactory/ssh-agent@v0.5.3
+        uses: longaodai/ssh@v1.0.3
         with:
           ssh-private-key: ${{ secrets.SSHKEY }}
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          ssh_key_path: id_rsa
+          command: 'ls -l'
 
-      - name: SSH to server and pull code
-        run: |
-          ssh -o StrictHostKeyChecking=no -A ohioncom@103.106.105.141 'cd test-deploy.hioncoding.com && git pull origin'
+      # - name: SSH to server and pull code
+      #   run: |
+      #     ssh -o StrictHostKeyChecking=no -A ohioncom@103.106.105.141 'cd test-deploy.hioncoding.com && git pull origin'
