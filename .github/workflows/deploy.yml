@@ -15,12 +15,7 @@ jobs:
       - name: Setup SSH key
         uses: longaodai/ssh@main
         with:
-          # ssh-private-key: ${{ secrets.SSHKEY }}
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           command: 'ls -l'
-
-      # - name: SSH to server and pull code
-      #   run: |
-      #     ssh -o StrictHostKeyChecking=no -A ohioncom@103.106.105.141 'cd test-deploy.hioncoding.com && git pull origin'
