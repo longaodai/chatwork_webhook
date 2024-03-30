@@ -18,4 +18,4 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
-          commands: 'ls -l && echo "123"'
+          commands: 'cd test-deploy.hioncoding.com && git pull origin'
