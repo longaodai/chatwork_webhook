@@ -10,7 +10,7 @@ jobs:
 
     steps:
       - name: Setup SSH key
-        uses: longaodai/ssh-server@v1.0.0
+        uses: longaodai/ssh-server@main
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
