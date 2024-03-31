@@ -14,5 +14,5 @@ jobs:
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
+          ssh-private-key: ${{ secrets.SSHKEY }}
           commands: 'cd test-deploy.hioncoding.com && git pull origin'
