@@ -1,0 +1,53 @@
+name: DEV - Manual
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment: 
+        required: true
+        default: 'Stop'
+        description: Please select the FW action
+        type: choice
+        options:
+          - stop
+          - start
+      commit_id:
+        required: false
+        description: Please select the commit ID
+        type: choice
+        options: ${{ steps.extract_commit_ids.outputs.commit_ids }}
+
+jobs:
+  deployment:
+    if: ${{ github.event.inputs.environment != 'start' }}
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+      contents: write
+
+    steps:
+      - name: Get Last Commits
+        id: last_commits
+        run: |
+          commits=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+                          "https://api.github.com/repos/${{ github.repository }}/commits?per_page=5")
+          echo "::set-output name=commits::$commits"
+
+      - name: Extract Commit IDs
+        id: extract_commit_ids
+        run: |
+          commit_ids=$(echo "${{ steps.last_commits.outputs.commits }}" | jq -r '.[].sha')
+          echo "::set-output name=commit_ids::$commit_ids"
+
+      - name: Show Commit IDs
+        run: echo "Commit IDs: ${{ steps.extract_commit_ids.outputs.commit_ids }}"
+
+      - name: Run 2
+        run: echo "Run 2"
+
+      - name: Show Input Text
+        run: echo "Input text: ${{ github.event.inputs.input_text }}"
+
+      - name: Run 3
+        run: echo "Run 3"
