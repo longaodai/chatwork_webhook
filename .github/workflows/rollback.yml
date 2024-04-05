@@ -18,7 +18,7 @@ jobs:
       - name: Get Last Commits
         id: last_commits
         run: |
-          commits=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          const commits=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
                           "https://api.github.com/repos/${{ github.repository }}/commits?per_page=5")
           echo "::set-output name=commits::$commits"
 
