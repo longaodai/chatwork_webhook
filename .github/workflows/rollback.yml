@@ -1,21 +1,9 @@
 name: DEV - Rollback
 
 on:
-  workflow_dispatch:
-    inputs:
-      environment: 
-        required: true
-        default: 'Stop'
-        description: Please select the FW action
-        type: choice
-        options:
-          - stop
-          - start
-      commit_id:
-        required: false
-        description: Please select the commit ID
-        type: choice
-        options: ${{ steps.extract_commit_ids.outputs.commit_ids }}
+  push:
+    branches:
+      - main
 
 jobs:
   deployment:
