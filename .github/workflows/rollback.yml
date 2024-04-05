@@ -4,10 +4,16 @@ on:
   push:
     branches:
       - main
+      
+  workflow_dispatch:
+    inputs:
+      input_text:
+        description: Enter your commit want rollback
+        required: true
+        type: text
 
 jobs:
   deployment:
-    if: ${{ github.event.inputs.environment != 'start' }}
     runs-on: ubuntu-latest
 
     permissions:
@@ -18,7 +24,7 @@ jobs:
       - name: Get Last Commits
         id: last_commits
         run: |
-          const commits=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          commits=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
                           "https://api.github.com/repos/${{ github.repository }}/commits?per_page=5")
           echo "::set-output name=commits::$commits"
 
@@ -38,7 +44,8 @@ jobs:
         run: echo "Run 2"
 
       - name: Show Input Text
-        run: echo ${{ github.event.inputs.input_text }}
+        run: |
+          echo ${{ github.event.inputs.input_text }}
 
       - name: Run 3
         run: echo "Run 3"
