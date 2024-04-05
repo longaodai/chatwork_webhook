@@ -32,7 +32,7 @@ jobs:
           echo "::set-output name=commit_ids::$commit_ids"
 
       - name: Show Commit IDs
-        run: echo ${{ steps.extract_commit_ids.outputs.commit_ids }}
+        run: echo ${{ steps.last_commits.outputs.commits }}
 
       - name: Run 2
         run: echo "Run 2"
