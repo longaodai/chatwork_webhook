@@ -6,18 +6,19 @@ on:
       environment: 
         required: true
         default: 'Stop'
-        description: Please select the FW action
+        description: Please select the action
         type: choice
         options:
           - stop
           - start
       input_text:
-        description: Enter your text
+        description: Enter your commit want rollback
         required: true
         type: text
 
 jobs:
   deployment:
+    if: ${{ github.event.inputs.environment == 'start' }}
     runs-on: ubuntu-latest
 
     permissions:
@@ -25,15 +26,7 @@ jobs:
       contents: write
 
     steps:
-      - name: Run 2
+      - name: Show Input Text
         if: always()
         run: |
-          echo "Run 2"
-
-      - name: Show Input Text
-        run: |
           echo "Input text: ${{ github.event.inputs.input_text }}"
-
-      - name: Run 3
-        run: |
-          echo "Run 3"
