@@ -1,0 +1,33 @@
+name: DEV - Manual NEW
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment: 
+        required: true
+        default: 'Stop'
+        description: Please select the action
+        type: choice
+        options:
+          - stop
+          - start
+      input_text:
+        description: Enter your commit want rollback
+        required: true
+        type: text
+
+jobs:
+  deployment:
+    if: ${{ github.event.inputs.environment == 'start' }}
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+      contents: write
+
+    steps:
+      - name: Show Input Text
+        if: always()
+        run: |
+          echo "Branch: ${GITHUB_REF##*/}"
+          echo "Input text: ${{ github.event.inputs.input_text }}"
