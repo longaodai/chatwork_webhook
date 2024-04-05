@@ -29,4 +29,5 @@ jobs:
       - name: Show Input Text
         if: always()
         run: |
+          echo "Branch: ${GITHUB_REF##*/}"
           echo "Input text: ${{ github.event.inputs.input_text }}"
