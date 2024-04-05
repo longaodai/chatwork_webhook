@@ -25,8 +25,11 @@ jobs:
       - name: Extract Commit IDs
         id: extract_commit_ids
         run: |
-          commit_ids=$(echo "${{ steps.last_commits.outputs.commits }}" | jq -r '.[].sha')
-          echo "::set-output name=commit_ids::[$commit_ids]"
+          commit_ids=""
+          for commit in $(echo "${{ steps.last_commits.outputs.commits }}" | jq -r '.[] | .sha'); do
+            commit_ids="$commit_ids $commit"
+          done
+          echo "::set-output name=commit_ids::$commit_ids"
 
       - name: Show Commit IDs
         run: echo ${{ steps.extract_commit_ids.outputs.commit_ids }}
