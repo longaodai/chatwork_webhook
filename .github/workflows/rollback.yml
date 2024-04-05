@@ -21,6 +21,9 @@ jobs:
       contents: write
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
       - name: Get Last Commits
         id: last_commits
         run: |
