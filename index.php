@@ -43,4 +43,10 @@ if (isset($data['webhook_event']['body']) && isset($data['webhook_event']['room_
             'content' => json_encode($postData),
         ),
     );
+    $context  = stream_context_create($options);
+    $result = file_get_contents($url, false, $context);
+    if ($result === FALSE) {
+    } else {
+        echo "Tin nhắn đã được gửi lại thành công vào room $roomId.";
+    }
 }
