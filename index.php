@@ -2,77 +2,68 @@
 <p>My first package github action</p>
 <p>Something done !! v1 kakaka PHP</p>
 <?php
-$token= "Ew5/V+BC4QMPU8a5kfFRCNDcJmbS6W7PcsCuJaMj72w=";
+$token = "379d91af33d874e35b8d3a47c646a5de";
 $payload = file_get_contents('php://input');
 $data = json_decode($payload, true);
+$roomId = !empty($data['webhook_event']['room_id']) ? $data['webhook_event']['room_id'] : 358038119;
+$urlRequest = "https://api.chatwork.com/v2/rooms/" . $roomId . "/messages";
+writeToLog("Data payload: " . json_encode($data));
+
 if (isset($data['webhook_event']['body']) && isset($data['webhook_event']['room_id'])) {
-    writeToLog("Run here");
+    writeToLog('----- Send manual by webhook -----');
     $message = $data['webhook_event']['body'];
-    $roomId = $data['webhook_event']['room_id'];
-
-    $responseMessage = "Xin chào! Bạn vừa gửi tin nhắn: $message";
-    $postData = array(
-        'body' => $responseMessage,
-    );
-
-    // Gửi lại tin nhắn vào room
-    $url = "https://api.chatwork.com/v2/rooms/$roomId/messages";
-    $options = array(
-        'http' => array(
-            'method'  => 'POST',
-            'header'  => array(
-                "Content-type: application/json",
-                "X-ChatWorkToken: " . $token
-            ),
-            'content' => json_encode($postData),
-        ),
-    );
-    $context  = stream_context_create($options);
-    $result = file_get_contents($url, false, $context);
-    if ($result === FALSE) {
-    } else {
-        echo "Tin nhắn đã được gửi lại thành công vào room $roomId.";
-    }
+    $responseMessage = "Xin chào! Bạn vừa gửi tin nhắn: [code]{$message}[/code]";
 } else {
-    $roomId=358038119;
-    $responseMessage = "Xin chào! Bạn vừa gửi tin nhắn: 123 ";
-    $postData = array(
-        'body' => $responseMessage,
-    );
-    echo "Không có dữ liệu tin nhắn hoặc room_id từ webhook.";
-    $url = "https://api.chatwork.com/v2/rooms/$roomId/messages";
-    $options = array(
-        'http' => array(
-            'method'  => 'POST',
-            'header'  => array(
-                "Content-type: application/json",
-                "X-ChatWorkToken: " . $token
-            ),
-            'content' => json_encode($postData),
-        ),
-    );
-    $context  = stream_context_create($options);
-    $result = file_get_contents($url, false, $context);
-    if ($result === FALSE) {
-    } else {
-        echo "Tin nhắn đã được gửi lại thành công vào room $roomId.";
-    }
+    writeToLog('----- Send manual by web -----');
+    $responseMessage = "Xin chào! Tin nhắn này được gửi thủ công ở web!";
+
 }
 
-function writeToLog($message) {
-    // Đường dẫn đến tệp log, bạn có thể điều chỉnh đường dẫn và tên tệp theo ý của mình
+$postData = array(
+    'body' => $responseMessage,
+);
+$result = sendMessage($postData, $urlRequest, $token);
+
+if ($result['code'] == 200) {
+    echo "Tin nhắn đã được gửi lại thành công vào room $roomId.";
+} else {
+    echo "Có lỗi xảy ra khi gửi tin nhắn.";
+}
+
+function sendMessage($data, $url, $token)
+{
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'Content-Type: application/json',
+        'X-ChatWorkToken: ' . $token
+    ));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+    $response = curl_exec($ch);
+    $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    if ($code == 200) {
+        return [
+            'status' => 'success',
+            'code' => $code,
+        ];
+    }
+
+    return [
+        'status' => 'failed',
+        'code' => $code,
+        'response' => $response,
+    ];
+}
+
+function writeToLog($message)
+{
     $logFile = "logs.txt";
-
-    // Mở hoặc tạo tệp log để ghi
     $fileHandle = fopen($logFile, 'a') or die("Không thể mở tệp log.");
-
-    // Chuẩn bị dòng log với thời gian và nội dung
     $logLine = date('Y-m-d H:i:s') . " - " . $message . "\n";
-
-    // Ghi dòng log vào tệp
     fwrite($fileHandle, $logLine);
-
-    // Đóng tệp sau khi ghi
     fclose($fileHandle);
 }
 
