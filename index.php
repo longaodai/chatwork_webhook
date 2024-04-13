@@ -20,11 +20,10 @@ $postData = array(
     'body' => $responseMessage,
 );
 $result = sendMessage($postData, $urlRequest, $token);
+$messageResponse = 'Oop! Something went wrong!';
 
 if ($result['code'] == 200) {
-    echo "Tin nhắn đã được gửi lại thành công vào room $roomId.";
-} else {
-    echo "Có lỗi xảy ra khi gửi tin nhắn.";
+    $messageResponse = 'Yeah! Send message successfully! Room id: ' . $roomId;
 }
 
 function sendMessage($data, $url, $token): array
@@ -77,7 +76,10 @@ function writeToLog($message)
     <title>Webhook Chatwork</title>
 </head>
 <body>
-    <center><h1>Welcome to send message Chatwork</h1></center>
+    <center>
+        <h1>Welcome to send message Chatwork</h1>
+        <p><?= $messageResponse ?></p>
+    </center>
 </body>
 </html>
 
