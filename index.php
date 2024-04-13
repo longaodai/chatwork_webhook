@@ -19,10 +19,10 @@ if (isset($data['webhook_event']['body']) && isset($data['webhook_event']['room_
 $postData = array(
     'body' => $responseMessage,
 );
-$result = sendMessage($postData, $urlRequest, $token);
+//$result = sendMessage($postData, $urlRequest, $token);
 $messageResponse = 'Oop! Something went wrong!';
 
-if ($result['code'] == 200) {
+if (!empty($result) && $result['code'] == 200) {
     $messageResponse = 'Yeah! Send message successfully! Room id: ' . $roomId;
 }
 
