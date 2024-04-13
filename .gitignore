@@ -1,2 +1,5 @@
 .idea
 logs.txt
+env.php
+logs.log
+/storage/logs/
