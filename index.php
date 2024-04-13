@@ -1,5 +1,6 @@
 <?php
 $token = "379d91af33d874e35b8d3a47c646a5de";
+$owner_id = '9307477';
 $payload = file_get_contents('php://input');
 $data = json_decode($payload, true);
 $roomId = !empty($data['webhook_event']['room_id']) ? $data['webhook_event']['room_id'] : 358038119;
@@ -13,13 +14,14 @@ if (isset($data['webhook_event']['body']) && isset($data['webhook_event']['room_
 } else {
     writeToLog('----- Send manual by web -----');
     $responseMessage = "Xin chào! Tin nhắn này được gửi thủ công ở web!";
-
 }
 
-$postData = array(
-    'body' => $responseMessage,
-);
-//$result = sendMessage($postData, $urlRequest, $token);
+if (!empty($data['webhook_event']['account_id']) && $data['webhook_event']['account_id'] != $owner_id) {
+    $postData = array(
+        'body' => $responseMessage,
+    );
+    $result = sendMessage($postData, $urlRequest, $token);
+}
 $messageResponse = 'Oop! Something went wrong!';
 
 if (!empty($result) && $result['code'] == 200) {
@@ -64,6 +66,7 @@ function writeToLog($message)
         // TODO: Handle error where write logs!
     }
 }
+
 ?>
 
 <!doctype html>
@@ -76,10 +79,10 @@ function writeToLog($message)
     <title>Webhook Chatwork</title>
 </head>
 <body>
-    <center>
-        <h1>Welcome to send message Chatwork</h1>
-        <p><?= $messageResponse ?></p>
-    </center>
+<center>
+    <h1>Welcome to send message Chatwork</h1>
+    <p><?= $messageResponse ?></p>
+</center>
 </body>
 </html>
 
