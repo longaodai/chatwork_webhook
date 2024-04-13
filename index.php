@@ -5,6 +5,7 @@
 $payload = file_get_contents('php://input');
 $data = json_decode($payload, true);
 if (isset($data['webhook_event']['body']) && isset($data['webhook_event']['room_id'])) {
+    writeToLog("Run here");
     $message = $data['webhook_event']['body'];
     $roomId = $data['webhook_event']['room_id'];
 
@@ -50,3 +51,21 @@ if (isset($data['webhook_event']['body']) && isset($data['webhook_event']['room_
         echo "Tin nhắn đã được gửi lại thành công vào room $roomId.";
     }
 }
+
+function writeToLog($message) {
+    // Đường dẫn đến tệp log, bạn có thể điều chỉnh đường dẫn và tên tệp theo ý của mình
+    $logFile = "logs.txt";
+
+    // Mở hoặc tạo tệp log để ghi
+    $fileHandle = fopen($logFile, 'a') or die("Không thể mở tệp log.");
+
+    // Chuẩn bị dòng log với thời gian và nội dung
+    $logLine = date('Y-m-d H:i:s') . " - " . $message . "\n";
+
+    // Ghi dòng log vào tệp
+    fwrite($fileHandle, $logLine);
+
+    // Đóng tệp sau khi ghi
+    fclose($fileHandle);
+}
+
