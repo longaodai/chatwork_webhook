@@ -2,6 +2,7 @@
 <p>My first package github action</p>
 <p>Something done !! v1 kakaka PHP</p>
 <?php
+$token= "Ew5/V+BC4QMPU8a5kfFRCNDcJmbS6W7PcsCuJaMj72w=";
 $payload = file_get_contents('php://input');
 $data = json_decode($payload, true);
 if (isset($data['webhook_event']['body']) && isset($data['webhook_event']['room_id'])) {
@@ -18,8 +19,11 @@ if (isset($data['webhook_event']['body']) && isset($data['webhook_event']['room_
     $url = "https://api.chatwork.com/v2/rooms/$roomId/messages";
     $options = array(
         'http' => array(
-            'header'  => "Content-type: application/json\r\nX-ChatWorkToken: Ew5/V+BC4QMPU8a5kfFRCNDcJmbS6W7PcsCuJaMj72w=\r\n",
             'method'  => 'POST',
+            'header'  => array(
+                "Content-type: application/json",
+                "X-ChatWorkToken: " . $token
+            ),
             'content' => json_encode($postData),
         ),
     );
@@ -39,8 +43,11 @@ if (isset($data['webhook_event']['body']) && isset($data['webhook_event']['room_
     $url = "https://api.chatwork.com/v2/rooms/$roomId/messages";
     $options = array(
         'http' => array(
-            'header'  => "Content-type: application/json\r\nX-ChatWorkToken: Ew5/V+BC4QMPU8a5kfFRCNDcJmbS6W7PcsCuJaMj72w=\r\n",
             'method'  => 'POST',
+            'header'  => array(
+                "Content-type: application/json",
+                "X-ChatWorkToken: " . $token
+            ),
             'content' => json_encode($postData),
         ),
     );
