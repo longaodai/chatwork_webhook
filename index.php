@@ -61,8 +61,6 @@ function writeToLog($message)
         $logFile = __DIR__ . "/logs.txt";
         $logLine = date('Y-m-d H:i:s') . " - " . $message . "\n";
         file_put_contents($logFile, $logLine, FILE_APPEND | LOCK_EX);
-        var_dump(file_put_contents($logFile, $logLine, FILE_APPEND | LOCK_EX));
-        die();
     } catch (\Throwable $throwable) {
         // TODO: Handle error where write logs!
     }
