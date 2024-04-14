@@ -45,7 +45,7 @@ class Chatwork
         // For develop in local
         if (APP_ENVIRONMENT == 'local' || (!empty($data['webhook_event']['account_id']) && $data['webhook_event']['account_id'] != $this->__getOwnerId())) {
             $postData = array(
-                'body' => $responseMessage . "[code]{$message}[/code]",
+                'body' => $responseMessage . " [code]{$message}[/code]",
             );
             $result = cURL::post($this->__getEndpointChatwork(), http_build_query($postData), $this->__getHeaders());
         }
