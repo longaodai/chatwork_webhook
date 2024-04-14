@@ -19,3 +19,7 @@ if (!defined('CHAT_WORK_API_TOKEN')) {
 if (!defined('CHAT_GPT_API_TOKEN')) {
     define('CHAT_GPT_API_TOKEN', '');
 }
+
+if (!defined('GEMINI_API_TOKEN')) {
+    define('GEMINI_API_TOKEN', '');
+}

@@ -9,19 +9,19 @@ class cURL
      *
      * @param string $url
      * @param array $headers
-     * @param array $data
+     * @param mixed $data
      *
      * @return array
      *
      * @author <vochilong>
      */
-    public static function post(string $url, array $headers = [], array $data = []): array
+    public static function post(string $url, $data, array $headers = []): array
     {
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         $response = curl_exec($ch);
         $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);

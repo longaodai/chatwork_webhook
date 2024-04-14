@@ -13,12 +13,14 @@ class Chatwork
     private string $room_id;
     private array $headers;
     private string $endpoint_chatwork;
+    private Gemini $geminiService;
 
     public function __construct()
     {
         $this->__setToken();
         $this->__setOwnerId();
         $this->__setHeaders();
+        $this->geminiService = new Gemini();
     }
 
     public function handle(): string
@@ -30,20 +32,25 @@ class Chatwork
         $this->__setEndpointChatwork();
         Logging::write("----- DATA PAYLOAD -----: " . json_encode($data));
 
-        if (isset($data['webhook_event']['body']) && isset($data['webhook_event']['room_id'])) {
+        if (!empty($data['webhook_event']['body']) && isset($data['webhook_event']['room_id'])) {
             Logging::write('----- HANDLE FOR PAYLOAD -----');
             $message = $data['webhook_event']['body'];
-            $responseMessage = "Xin chào! Bạn vừa gửi tin nhắn: [code]{$message}[/code]";
+            $data_webhook = $data['webhook_event'];
+            $reply_message = "[Reply aid={$data_webhook['account_id']} to={$data_webhook['room_id']}-{$data_webhook['message_id']}]";
+            $responseMessage = $reply_message;
         } else {
             Logging::write('----- HANDLE FOR MANUAL -----');
             $responseMessage = "Xin chào! Tin nhắn này được gửi thủ công ở web!";
+            $message = 'Trả lời bằng tiếng VIệt';
         }
 
-        if (APP_ENVIRONMENT == 'local' && !empty($data['webhook_event']['account_id']) && $data['webhook_event']['account_id'] != $this->__getOwnerId()) {
+        // For develop in local
+        if (APP_ENVIRONMENT == 'local' || (!empty($data['webhook_event']['account_id']) && $data['webhook_event']['account_id'] != $this->__getOwnerId())) {
+            $result = $this->geminiService->sendRequest($message);
             $postData = array(
-                'body' => $responseMessage,
+                'body' => $responseMessage . "[code]{$result}[/code]",
             );
-            $result = cURL::post($this->__getEndpointChatwork(), $this->__getHeaders(), $postData);
+            $result = cURL::post($this->__getEndpointChatwork(), http_build_query($postData), $this->__getHeaders());
         }
 
         $messageResponse = 'Oop! Something went wrong!';
