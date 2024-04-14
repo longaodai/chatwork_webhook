@@ -13,14 +13,12 @@ class Chatwork
     private string $room_id;
     private array $headers;
     private string $endpoint_chatwork;
-    private Gemini $geminiService;
 
     public function __construct()
     {
         $this->__setToken();
         $this->__setOwnerId();
         $this->__setHeaders();
-        $this->geminiService = new Gemini();
     }
 
     public function handle(): string
@@ -46,9 +44,8 @@ class Chatwork
 
         // For develop in local
         if (APP_ENVIRONMENT == 'local' || (!empty($data['webhook_event']['account_id']) && $data['webhook_event']['account_id'] != $this->__getOwnerId())) {
-            $result = $this->geminiService->sendRequest($message);
             $postData = array(
-                'body' => $responseMessage . "[code]{$result}[/code]",
+                'body' => $responseMessage . "[code]{$message}[/code]",
             );
             $result = cURL::post($this->__getEndpointChatwork(), http_build_query($postData), $this->__getHeaders());
         }
