@@ -1,4 +1,4 @@
-name: SSH Pull Code
+name: Shedule
 
 on:
   schedule:
