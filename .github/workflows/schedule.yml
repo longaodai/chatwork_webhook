@@ -20,4 +20,4 @@ jobs:
         if: always()
         run: |
           echo "Branch: ${GITHUB_REF##*/}"
-          cat README.MD
+          cat README.md
