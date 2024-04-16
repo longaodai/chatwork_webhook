@@ -12,3 +12,12 @@ jobs:
       - name: Notification
         run: |
           echo "Say hello!"
+      
+      - uses: actions/checkout@v2
+        with:
+          ref: develop
+      - name: check
+        if: always()
+        run: |
+          echo "Branch: ${GITHUB_REF##*/}"
+          cat README.MD
