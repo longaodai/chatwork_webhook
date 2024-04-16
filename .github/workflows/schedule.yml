@@ -1,0 +1,14 @@
+name: SSH Pull Code
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Notification
+        run: |
+          echo "Say hello!"
