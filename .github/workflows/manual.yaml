@@ -31,3 +31,4 @@ jobs:
           echo "Branch: ${GITHUB_REF##*/}"
           echo "Tag: ${{ inputs.version }}"
           echo "Input text: ${{ github.event.inputs.input_text }}"
+          ls -la
