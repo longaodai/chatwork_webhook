@@ -16,15 +16,9 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
-      
-      - name: Get Latest Commit Hash
-        id: get_commit
-        run: |
-          echo "::set-output name=commit_hash::$(git rev-parse HEAD)"
 
       - name: Create New Tag
         run: |
-          echo "${{ steps.get_commit.outputs.commit_hash }}";
           tag_name="v1.0.0-$(date +%Y%m%d%H%M%S)"
           git tag $tag_name
           git push origin $tag_name
