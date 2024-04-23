@@ -21,6 +21,7 @@ jobs:
         id: get_commit
         run: |
           echo "::set-output name=commit_hash::$(git rev-parse HEAD)"
+          echo ${{ github.ref_name }}
 
       - name: Create New Tag
         run: |
