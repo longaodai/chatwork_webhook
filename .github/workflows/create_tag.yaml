@@ -25,4 +25,4 @@ jobs:
 
       - name: Get Tags
         run: |
-          git tag
+          git tag -l
