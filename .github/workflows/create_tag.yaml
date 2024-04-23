@@ -26,5 +26,5 @@ jobs:
         run: |
           echo "${{ steps.get_commit.outputs.commit_hash }}";
           tag_name="v1.0.0-$(date +%Y%m%d%H%M%S)"
-          git tag $tag_name "${{ steps.get_commit.outputs.commit_hash }}"
+          git tag $tag_name
           git push origin $tag_name
