@@ -21,7 +21,9 @@ jobs:
         id: get_commit
         run: |
           echo "::set-output name=commit_hash::$(git rev-parse HEAD)"
-          echo ${{ github.ref_name }}
+          const tag = "${{ github.ref_name }}";
+          const [service,version] =  tag.split("-");
+          echo `${service}:${version}:${tag}`;
 
       - name: Create New Tag
         run: |
