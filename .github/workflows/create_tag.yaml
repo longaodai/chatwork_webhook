@@ -22,3 +22,7 @@ jobs:
           tag_name="v1.0.0-$(date +%Y%m%d%H%M%S)"
           git tag $tag_name
           git push origin $tag_name
+
+      - name: Get Tags
+        run: |
+          git tag -l
