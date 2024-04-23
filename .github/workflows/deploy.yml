@@ -3,7 +3,7 @@ name: SSH Pull Code
 on:
   push:
     branches:
-      - main
+      - main-bk
 jobs:
   deploy:
     runs-on: ubuntu-latest
