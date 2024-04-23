@@ -20,9 +20,9 @@ jobs:
       - name: Create New Tag
         run: |
           tag_name="v1.0.0-$(date +%Y%m%d%H%M%S)"
-          git tag -a $tag_name -m "Tags new !!!"
+          git tag $tag_name
           git push origin $tag_name
 
       - name: Get Tags
         run: |
-          git tag -l
+          git tag -l -n3
