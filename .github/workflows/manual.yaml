@@ -31,4 +31,10 @@ jobs:
           echo "Branch: ${GITHUB_REF##*/}"
           echo "Tag: ${{ inputs.version }}"
           echo "Input text: ${{ github.event.inputs.input_text }}"
+
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Show file
+        run: |
           ls -la
