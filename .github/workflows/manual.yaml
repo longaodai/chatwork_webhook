@@ -28,12 +28,16 @@ jobs:
       - name: Show Input Text
         if: always()
         run: |
+          echo ${{ github.token }}
           echo "Branch: ${GITHUB_REF##*/}"
           echo "Tag: ${{ inputs.version }}"
           echo "Input text: ${{ github.event.inputs.input_text }}"
 
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          repository: 'https://github.com/dangkhoa710/fire_comic'
+          token: ${{ github.token }}
 
       - name: Show file
         run: |
