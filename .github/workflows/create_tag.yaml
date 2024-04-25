@@ -20,7 +20,8 @@ jobs:
       - name: Create tag name
         id: create_tag_name
         run: |
-          echo "tag_name=v1.2.4" >> $GITHUB_OUTPUT
+          echo "tag_name=v1.3.0" >> $GITHUB_OUTPUT
+          echo "tag_name_gh=v1.3.1" >> $GITHUB_OUTPUT
         
 
       - name: Create New Tag
@@ -55,6 +56,8 @@ jobs:
           sudo apt install -y gh
 
       - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          tag_name=v1.2.5
+          tag_name="${{ steps.create_tag_name.outputs.tag_name_gh }}"
           gh release create $tag_name -t "Release $tag_name" -n "Description for Release $tag_name"
