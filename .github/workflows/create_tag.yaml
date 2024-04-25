@@ -3,7 +3,7 @@ name: Create New Tag on Push
 on:
   push:
     branches:
-      - main-bk
+      - main
 
 jobs:
   create_tag:
@@ -17,8 +17,15 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      - name: Create tag name
+        id: create_tag_name
+        run: |
+          echo "tag_name=v1.2.3"
+        
+
       - name: Create New Tag
         run: |
+          echo steps.create_tag_name.outputs.tag_name
           tag_name="v1.1.3"
           git tag $tag_name
           git push origin $tag_name
