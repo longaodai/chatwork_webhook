@@ -20,13 +20,13 @@ jobs:
       - name: Create tag name
         id: create_tag_name
         run: |
-          echo "tag_name=v1.2.3"
+          echo "tag_name=v1.2.3" >> $GITHUB_OUTPUT
         
 
       - name: Create New Tag
         run: |
-          echo steps.create_tag_name.outputs.tag_name
-          tag_name="v1.1.3"
+          echo "${{ steps.create_tag_name.outputs.tag_name }}"
+          tag_name="v1.1.4"
           git tag $tag_name
           git push origin $tag_name
 
@@ -36,8 +36,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: "v1.1.3"
-          release_name: Release "v1.1.3"
+          tag_name: "v1.1.4"
+          release_name: Release "v1.1.4"
           body: |
             Changes in this Release
             - First Change
