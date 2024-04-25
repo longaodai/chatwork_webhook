@@ -36,7 +36,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          repository: 'https://github.com/dangkhoa710/fire_comic'
+          repository: 'dangkhoa710/fire_comic'
           token: ${{ github.token }}
 
       - name: Show file
