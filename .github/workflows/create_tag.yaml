@@ -24,4 +24,4 @@ jobs:
 
       - name: Write to File
         run: |
-          echo ${{ env }}
+          env
