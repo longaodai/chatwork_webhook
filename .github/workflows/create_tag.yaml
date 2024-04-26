@@ -33,4 +33,4 @@ jobs:
           date
       - name: Say date
         run: |
-          date
+          date '+%Y-%m-%d %H:%M:%S'
