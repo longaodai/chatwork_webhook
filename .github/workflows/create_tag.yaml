@@ -24,19 +24,4 @@ jobs:
 
       - name: Write to File
         run: |
-          echo "This is version 1" >> text.txt
-
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: text-file
-          path: text.txt
-
-      - name: Download Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: text-file
-
-      - name: Read from File
-        run: |
-          cat text.txt
+          echo env
