@@ -8,6 +8,11 @@ on:
 jobs:
   create_tag:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ip: [1,2]
+      fail-fast: true
+      max-parallel: 1
     
     permissions:
       id-token: write
@@ -17,62 +22,22 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Create tag name
-        id: create_tag_name
+      - name: Write to File
         run: |
-          echo "tag_name=v1.3.3" >> $GITHUB_OUTPUT
-          echo "tag_name_gh=v1.3.4" >> $GITHUB_OUTPUT
-          echo "tag_name_api=v1.3.5" >> $GITHUB_OUTPUT
-        
+          echo "This is version 1" >> text.txt
 
-      - name: Create New Tag
-        run: |
-          echo "${{ steps.create_tag_name.outputs.tag_name }}"
-          tag_name="${{ steps.create_tag_name.outputs.tag_name }}"
-          git tag $tag_name
-          git push origin $tag_name
-
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
         with:
-          tag_name: "${{ steps.create_tag_name.outputs.tag_name }}"
-          release_name: Release "${{ steps.create_tag_name.outputs.tag_name }}"
-          body: |
-            Changes in this Release
-            - First Change
-            - Second Change
-          draft: false
-          prerelease: false
+          name: text-file
+          path: text.txt
 
-      - name: Get Tags
-        run: |
-          git tag -l
+      - name: Download Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: text-file
 
-      - name: Install GitHub CLI
+      - name: Read from File
         run: |
-          sudo apt update
-          sudo apt install -y gh
-
-      - name: Create GitHub Release
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          tag_name="${{ steps.create_tag_name.outputs.tag_name_gh }}"
-          gh release create $tag_name -t "Release $tag_name" -n "Description for Release $tag_name"
-
-      - name: Create GitHub Release with API
-        run: |
-          tag_name="${{ steps.create_tag_name.outputs.tag_name_api }}"
-          curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            -d '{
-                "tag_name": "'$tag_name'",
-                "target_commitish": "main",
-                "name": "Release '$tag_name'",
-                "body": "Description for release '$tag_name'",
-                "draft": false,
-                "prerelease": false
-              }' \
-            https://api.github.com/repos/${{ github.repository }}/releases
+          cat text.txt
+        
