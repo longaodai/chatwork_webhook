@@ -25,3 +25,4 @@ jobs:
       - name: Write to File
         run: |
           env
+          echo "123"
