@@ -1,14 +1,15 @@
 name: Create New Tag on Push
 
 on:
- workflow_dispatch:
-    input_text:
-        description: Enter your commit want rollback
-        required: false
-        type: text
-  push:
+ push:
     branches:
       - main
+
+ workflow_dispatch:
+   inputs:
+     input_text:
+       description: Enter your commit want rollback
+       type: text
 
 jobs:
   create_tag:
