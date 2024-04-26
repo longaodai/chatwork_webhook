@@ -20,8 +20,9 @@ jobs:
       - name: Create tag name
         id: create_tag_name
         run: |
-          echo "tag_name=v1.3.0" >> $GITHUB_OUTPUT
-          echo "tag_name_gh=v1.3.1" >> $GITHUB_OUTPUT
+          echo "tag_name=v1.3.3" >> $GITHUB_OUTPUT
+          echo "tag_name_gh=v1.3.4" >> $GITHUB_OUTPUT
+          echo "tag_name_api=v1.3.5" >> $GITHUB_OUTPUT
         
 
       - name: Create New Tag
@@ -61,3 +62,17 @@ jobs:
         run: |
           tag_name="${{ steps.create_tag_name.outputs.tag_name_gh }}"
           gh release create $tag_name -t "Release $tag_name" -n "Description for Release $tag_name"
+
+      - name: Create GitHub Release with API
+        run: |
+          tag_name="${{ steps.create_tag_name.outputs.tag_name_api }}"
+          curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -d '{
+                "tag_name": "'$tag_name'",
+                "target_commitish": "main",
+                "name": "Release '$tag_name'",
+                "body": "Description for release '$tag_name'",
+                "draft": false,
+                "prerelease": false
+              }' \
+            https://api.github.com/repos/${{ github.repository }}/releases
