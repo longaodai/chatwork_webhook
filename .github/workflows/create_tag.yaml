@@ -27,6 +27,7 @@ jobs:
           echo "This is version 1" >> text.txt
 
       - name: Set Timezone to JST
+        shell: bash -l {0}
         run: |
           export TZ='Asia/Tokyo'
           echo "Timezone set to $TZ"
