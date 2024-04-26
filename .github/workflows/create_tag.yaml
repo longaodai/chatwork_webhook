@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ip: [1,2]
+        ip: [1]
       fail-fast: true
       max-parallel: 1
     
@@ -26,18 +26,11 @@ jobs:
         run: |
           echo "This is version 1" >> text.txt
 
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: text-file
-          path: text.txt
-
-      - name: Download Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: text-file
-
-      - name: Read from File
+      - name: Set Timezone to JST
         run: |
-          cat text.txt
-        
+          export TZ='Asia/Tokyo'
+          echo "Timezone set to $TZ"
+          date
+      - name: Say date
+        run: |
+          date
