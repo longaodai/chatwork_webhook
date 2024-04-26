@@ -27,12 +27,14 @@ jobs:
           echo "This is version 1" >> text.txt
 
       - name: Set Timezone to JST
-        shell: bash -l {0}
         run: |
-          export TZ='Asia/Tokyo'
-          echo "Timezone set to $TZ"
+          sudo apt-get update
+          sudo apt-get install -y tzdata
+          sudo ln -fs /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
+          sudo dpkg-reconfigure -f noninteractive tzdata
           date
           date '+%Y-%m-%d %H:%M:%S'
-      - name: Say date
+
+      - name: Echo date
         run: |
           date '+%Y-%m-%d %H:%M:%S'
