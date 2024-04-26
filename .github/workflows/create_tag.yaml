@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ip: [1]
+        ip: [1,2]
       fail-fast: true
       max-parallel: 1
     
@@ -26,15 +26,17 @@ jobs:
         run: |
           echo "This is version 1" >> text.txt
 
-      - name: Set Timezone to JST
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y tzdata
-          sudo ln -fs /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
-          sudo dpkg-reconfigure -f noninteractive tzdata
-          date
-          date '+%Y-%m-%d %H:%M:%S'
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: text-file
+          path: text.txt
 
-      - name: Echo date
+      - name: Download Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: text-file
+
+      - name: Read from File
         run: |
-          date '+%Y-%m-%d %H:%M:%S'
+          cat text.txt
