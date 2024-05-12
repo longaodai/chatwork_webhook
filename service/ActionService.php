@@ -60,6 +60,8 @@ class ActionService
     {
         // content = Breakfast => 100k
         list($target, $price) = explode('=>', $this->content);
+        $target = trim($target);
+        $price = filter_var(trim($price), FILTER_SANITIZE_NUMBER_INT);
         $sheetName = PREFIX_SHEET_MONEY_MANAGER . date('m');
         $sheetService = new GoogleSheetService(CHATWORK_GOOGLE_SHEET_ID, $sheetName);
         $data = [

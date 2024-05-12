@@ -38,6 +38,11 @@ class Request
         }
     }
 
+    public function getMethod()
+    {
+        return $_SERVER['REQUEST_METHOD'];
+    }
+
     public function get($field, $default = null)
     {
         if (isset($this->data[$field])) {

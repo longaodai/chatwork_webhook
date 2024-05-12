@@ -24,6 +24,12 @@ class Chatwork
     public function handle(): string
     {
         $request = new Request();
+
+        if ($request->getMethod() == 'GET') {
+            include_once BASE_PATH . 'template/home.php';
+            exit();
+        }
+
         $data = $request->all();
         $this->__setRoomId(!empty($data['webhook_event']['room_id']) ? $data['webhook_event']['room_id'] : CHAT_WORK_DEFAULT_ROOM_ID);
         $this->__setEndpointChatwork();
@@ -52,12 +58,18 @@ class Chatwork
         }
 
         $messageResponse = 'Oop! Something went wrong!';
+        $code = 400;
 
         if (!empty($result) && $result['code'] == 200) {
+            $code = $result['code'];
             $messageResponse = 'Yeah! Send message successfully! Room id: ' . $this->__getRoomId();
         }
 
-        return $messageResponse;
+        echo json_encode([
+            'code' => $code,
+            'message' => $messageResponse,
+        ]);
+        exit();
     }
 
     private function __getToken(): string

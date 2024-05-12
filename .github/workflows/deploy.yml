@@ -15,4 +15,4 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           ssh-private-key: ${{ secrets.SSHKEY }}
-          commands: 'cd test-deploy.hioncoding.com && git pull origin && composer update && php artisan optimize'
+          commands: 'cd chatwork-webhook.hioncoding.com && git pull origin && composer update && php artisan optimize'
