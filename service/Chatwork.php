@@ -35,20 +35,15 @@ class Chatwork
         $this->__setEndpointChatwork();
         Logging::write("----- DATA PAYLOAD -----: " . json_encode($data));
 
-        if (!empty($data['webhook_event']['body']) && isset($data['webhook_event']['room_id'])) {
+        if (
+            !empty($data['webhook_event']['body']) && isset($data['webhook_event']['room_id']) &&
+            (!empty($data['webhook_event']['account_id']) && $data['webhook_event']['account_id'] != $this->__getOwnerId())
+        ) {
             Logging::write('----- HANDLE FOR PAYLOAD -----');
             $message = $data['webhook_event']['body'];
             $data_webhook = $data['webhook_event'];
             $reply_message = "[rp aid={$data_webhook['account_id']} to={$data_webhook['room_id']}-{$data_webhook['message_id']}]";
             $responseMessage = $reply_message;
-        } else {
-            Logging::write('----- HANDLE FOR MANUAL -----');
-            $responseMessage = "Xin chào! Tin nhắn này được gửi thủ công ở web!";
-            $message = 'Trả lời bằng tiếng VIệt';
-        }
-
-        // For develop in local
-        if (APP_ENVIRONMENT == 'local' || (!empty($data['webhook_event']['account_id']) && $data['webhook_event']['account_id'] != $this->__getOwnerId())) {
             $actionService = new ActionService($message);
             $message = $actionService->handle();
             $postData = array(
