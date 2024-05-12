@@ -128,7 +128,19 @@
 </footer>
 
 <script>
-    // JavaScript code here
+    document.addEventListener("DOMContentLoaded", function() {
+        let navToggle = document.getElementById("nav-toggle");
+        let navContent = document.getElementById("nav-content");
+
+        navToggle.addEventListener("click", function() {
+            if (navContent.classList.contains("hidden")) {
+                navContent.classList.remove("hidden");
+            } else {
+                navContent.classList.add("hidden");
+            }
+        });
+    });
+
 </script>
 
 </body>
