@@ -19,7 +19,7 @@ class ActionService
         try {
             // [action]: content
             list($action, $content) = explode(':', $this->message);
-            $this->content = $content;
+            $this->content = !empty($content) ? $content : '';
 
             if (!empty($action) && in_array(trim($action), array_keys($this->listAction()))) {
                 return $this->{$this->listAction()[trim($action)]}();
@@ -67,7 +67,7 @@ class ActionService
         // content = Breakfast => 100k
         list($target, $price) = explode('=>', $this->content);
         $target = trim($target);
-        $price = filter_var(trim($price), FILTER_SANITIZE_NUMBER_INT);
+        $price = !empty($price) ? filter_var(trim($price), FILTER_SANITIZE_NUMBER_INT) : 0;
         $sheetName = PREFIX_SHEET_MONEY_MANAGER . date('m');
         $sheetService = new GoogleSheetService(CHATWORK_GOOGLE_SHEET_ID, $sheetName);
         $data = [
