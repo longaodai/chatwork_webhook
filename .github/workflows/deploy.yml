@@ -1,9 +1,9 @@
-name: SSH Pull Code
+name: Deploy Service
 
 on:
   push:
     branches:
-      - main-bk
+      - main
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -15,4 +15,4 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           ssh-private-key: ${{ secrets.SSHKEY }}
-          commands: 'cd test-deploy.hioncoding.com && git pull origin'
+          commands: 'cd test-deploy.hioncoding.com && git pull origin && composer update && php artisan optimize'

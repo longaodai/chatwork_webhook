@@ -15,8 +15,14 @@ class Autoloader
         if (file_exists($file)) {
             require_once $file;
         } else {
-            var_dump('Class ' . $file . ' not found');
-            die();
+            $autoloadComposer = __DIR__ . '/../vendor/autoload.php';
+
+            if (file_exists($autoloadComposer)) {
+                require_once $autoloadComposer;
+            } else {
+                var_dump('Class ' . $file . ' not found');
+                die();
+            }
         }
     }
 }

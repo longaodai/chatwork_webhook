@@ -23,7 +23,6 @@ class Chatwork
 
     public function handle(): string
     {
-
         $request = new Request();
         $data = $request->all();
         $this->__setRoomId(!empty($data['webhook_event']['room_id']) ? $data['webhook_event']['room_id'] : CHAT_WORK_DEFAULT_ROOM_ID);
@@ -44,6 +43,8 @@ class Chatwork
 
         // For develop in local
         if (APP_ENVIRONMENT == 'local' || (!empty($data['webhook_event']['account_id']) && $data['webhook_event']['account_id'] != $this->__getOwnerId())) {
+            $actionService = new ActionService($message);
+            $message = $actionService->handle();
             $postData = array(
                 'body' => $responseMessage . " [code]{$message}[/code]",
             );
