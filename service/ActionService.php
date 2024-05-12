@@ -16,15 +16,19 @@ class ActionService
 
     public function handle()
     {
-        // [action]: content
-        list($action, $content) = explode(':', $this->message);
-        $this->content = $content;
+        try {
+            // [action]: content
+            list($action, $content) = explode(':', $this->message);
+            $this->content = $content;
 
-        if (!empty($action) && in_array(trim($action), array_keys($this->listAction()))) {
-            return $this->{$this->listAction()[trim($action)]}();
+            if (!empty($action) && in_array(trim($action), array_keys($this->listAction()))) {
+                return $this->{$this->listAction()[trim($action)]}();
+            }
+
+            return $this->getListHelp();
+        } catch (\Throwable $throwable) {
+            return $this->getListHelp();
         }
-
-        return $this->getListHelp();
     }
 
     /**
