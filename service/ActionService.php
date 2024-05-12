@@ -47,6 +47,8 @@ class ActionService
 | Show list action: [list_help]                           |
 | Save money manager: [note_money]: {target} => {price}   |
 |     ex: [note_money]: For breakfast => 1000k            |
+|                                                         |
+| Contact: https://chatwork-webhook.hioncoding.com        |
 |---------------------------------------------------------|
         ';
     }
