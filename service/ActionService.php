@@ -24,7 +24,7 @@ class ActionService
             return $this->{$this->listAction()[trim($action)]}();
         }
 
-        return $this->message;
+        return $this->getListHelp();
     }
 
     /**
