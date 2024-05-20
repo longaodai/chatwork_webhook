@@ -71,7 +71,7 @@ class ActionService
         $sheetName = PREFIX_SHEET_MONEY_MANAGER . date('m');
         $sheetService = new GoogleSheetService(CHATWORK_GOOGLE_SHEET_ID, $sheetName);
         $data = [
-            date('Y-m-d H:i:s'),
+            date('Y-m-d'),
             $target,
             $price,
         ];
