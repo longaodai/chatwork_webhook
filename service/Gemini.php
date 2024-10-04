@@ -8,7 +8,7 @@ use core\Logging;
 class Gemini
 {
     private string $apiKey;
-    const MODEL = 'gemini-1.5-flash';
+    const MODEL = 'gemini-1.5-flash-latest';
     const BASEURL = 'https://generativelanguage.googleapis.com/v1beta';
 
     public function __construct()
@@ -30,10 +30,13 @@ class Gemini
         //         ]
         //     ]
         // ];
-        $url = 'https://generativelanguage.googleapis.com/v1beta3/models/' . self::MODEL . ':generateText?key=' . $this->apiKey;
+        $url = 'https://generativelanguage.googleapis.com/v1beta/models/' . self::MODEL . ':generateContent?key=' . $this->apiKey;
         $data = array(
-            'prompt' => [
-                'text' => $message
+            'contents' => [
+                [
+                    'parts' => [['text' => $message]]
+                    
+                ]
             ],
         );
         $headers = array(
