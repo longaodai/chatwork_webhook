@@ -39,6 +39,8 @@ class ActionService
 
             return $this->getListHelp();
         } catch (\Throwable $throwable) {
+            Logging::write("----- ERROR HANDLE ACTION -----: " . $throwable->getMessage());
+            
             return $this->getListHelp();
         }
     }
