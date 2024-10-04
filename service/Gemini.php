@@ -19,17 +19,6 @@ class Gemini
     public function sendRequest($message)
     {
         $text = filter_var($this->message, FILTER_SANITIZE_STRING);
-        // $url = sprintf("%s/models/%s:generateContent?key=%s", self::BASEURL, self::MODEL, $this->apiKey);
-        // $data = [
-        //     "contents" => [
-        //         [
-        //             "role" => "user",
-        //             "parts" => [
-        //                 ["text" => $text]
-        //             ]
-        //         ]
-        //     ]
-        // ];
         $url = 'https://generativelanguage.googleapis.com/v1beta/models/' . self::MODEL . ':generateContent?key=' . $this->apiKey;
         $data = array(
             'contents' => [
