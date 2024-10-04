@@ -3,6 +3,7 @@
 namespace service;
 
 use Google\Service\Exception;
+use core\Logging;
 
 class ActionService
 {
@@ -22,6 +23,7 @@ class ActionService
             foreach($this->listAction() as $action) {
                 if (str_contains($this->message, $action)) $isAction = true;
             }
+            Logging::write("----- IS ACTION -----: " . $isAction);
 
             if (!$isAction) {
                 return $this->callAssistant();
