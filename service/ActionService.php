@@ -20,17 +20,16 @@ class ActionService
         try {
             $isAction = false;
             
-            foreach($this->listAction() as $action) {
-                if (str_contains($this->message, $action)) {
+            foreach($this->listAction() as $key => $action) {
+                if (str_contains($this->message, $key)) {
                     $isAction = true;
                 }
             }
-            Logging::write("----- IS ACTION -----: " . $this->message . $isAction);
 
             if (!$isAction) {
                 return $this->callAssistant();
             }
-            Logging::write("----- IS ACTION2 -----: ");
+
             // [action]: content
             list($action, $content) = explode(':', $this->message);
             $this->content = !empty($content) ? $content : '';
@@ -108,9 +107,14 @@ class ActionService
      */
     private function callAssistant()
     {
-        Logging::write("----- HERE ACTION -----");
-        $geminiService = new Gemini();
+        try {
+            $geminiService = new Gemini();
 
-        return $geminiService->sendRequest($this->message);
+            return $geminiService->sendRequest($this->message);
+        } catch (\Throwable $throwable) {
+            $messageError = $throwable->getMessage();
+
+            return "Call assistant failed! $messageError";
+        }
     }
 }
