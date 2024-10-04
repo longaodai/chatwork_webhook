@@ -8,6 +8,8 @@ use core\Logging;
 class Gemini
 {
     private string $apiKey;
+    const MODEL = 'gemini-1.5-flash';
+    const BASEURL = 'https://generativelanguage.googleapis.com/v1beta';
 
     public function __construct()
     {
@@ -16,10 +18,8 @@ class Gemini
 
     public function sendRequest($message)
     {
-        MODEL = 'gemini-1.5-flash';
-        BASEURL = 'https://generativelanguage.googleapis.com/v1beta';
         $text = filter_var($this->message, FILTER_SANITIZE_STRING);
-        $url = sprintf("%s/models/%s:generateContent?key=%s", BASEURL, MODEL, $this->apiKey);
+        $url = sprintf("%s/models/%s:generateContent?key=%s", self::BASEURL, self::MODEL, $this->apiKey);
         Logging::write("----- xxxxxxx -----: " . $url);
         // $url = 'https://generativelanguage.googleapis.com/v1beta3/models/text-bison-001:generateText?key=' . $this->apiKey;
         // $data = array(
