@@ -20,12 +20,6 @@ class Gemini
     {
         $text = filter_var($this->message, FILTER_SANITIZE_STRING);
         $url = sprintf("%s/models/%s:generateContent?key=%s", self::BASEURL, self::MODEL, $this->apiKey);
-        // $url = 'https://generativelanguage.googleapis.com/v1beta3/models/text-bison-001:generateText?key=' . $this->apiKey;
-        // $data = array(
-        //     'prompt' => [
-        //         'text' => $message
-        //     ],
-        // );
         $data = [
             "contents" => [
                 [
@@ -36,7 +30,6 @@ class Gemini
                 ]
             ]
         ];
-
         $headers = array(
             'Content-Type: application/json'
         );
@@ -46,9 +39,7 @@ class Gemini
         if (!empty($responseData['error'])) {
             return $responseData['error']['message'];
         }
-        Logging::write("------------" . json_encode($responseData));
-        Logging::write("------------" . json_encode($responseData['candidates'][0]['content']['parts'][0] ?? "null"));
 
-        return $responseData->candidates[0]->content->parts[0]->text ?? "No response returned";
+        return $responseData['candidates'][0]['content']['parts'][0]['text'] ?? "No response returned";
     }
 }
