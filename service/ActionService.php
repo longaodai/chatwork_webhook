@@ -30,7 +30,7 @@ class ActionService
             if (!$isAction) {
                 return $this->callAssistant();
             }
-            
+            Logging::write("----- IS ACTION2 -----: ");
             // [action]: content
             list($action, $content) = explode(':', $this->message);
             $this->content = !empty($content) ? $content : '';
