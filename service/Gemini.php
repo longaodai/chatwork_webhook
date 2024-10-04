@@ -46,7 +46,7 @@ class Gemini
         if (!empty($responseData['error'])) {
             return $responseData['error']['message'];
         }
-
+        Logging::write("------------" . json_encode($responseData->candidates[0]));
 
         return $responseData->candidates[0]->content->parts[0]->text ?? "No response returned";
     }
