@@ -42,7 +42,8 @@ class Gemini
         );
         $response = cURL::post($url, json_encode($data), $headers);
         $responseData = json_decode($response['response'], true);
-
+        Logging::write("-----xxxxxxxxxxxxx-----" . json_encode($responseData));
+        
         if (!empty($responseData['error'])) {
             return $responseData['error']['message'];
         }
