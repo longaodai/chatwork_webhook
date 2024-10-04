@@ -23,7 +23,7 @@ class ActionService
             foreach($this->listAction() as $action) {
                 if (str_contains($this->message, $action)) $isAction = true;
             }
-            Logging::write("----- IS ACTION -----: " . $isAction);
+            Logging::write("----- IS ACTION -----: " . $this->message . $isAction);
 
             if (!$isAction) {
                 return $this->callAssistant();
