@@ -17,6 +17,16 @@ class ActionService
     public function handle()
     {
         try {
+            $isAction = false;
+            
+            foreach($this->listAction() as $action) {
+                if (str_contains($this->message, $action)) $isAction = true;
+            }
+
+            if (!$isAction) {
+                return $this->callAssistant();
+            }
+            
             // [action]: content
             list($action, $content) = explode(':', $this->message);
             $this->content = !empty($content) ? $content : '';
@@ -85,5 +95,15 @@ class ActionService
 
             return "Save money $target $price failed! $messageError";
         }
+    }
+
+    /**
+     * @return string
+     */
+    private function callAssistant()
+    {
+        $geminiService = new Gemini();
+        
+        return $geminiService->sendRequest($this->message);
     }
 }
