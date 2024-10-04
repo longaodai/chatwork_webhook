@@ -21,7 +21,9 @@ class ActionService
             $isAction = false;
             
             foreach($this->listAction() as $action) {
-                if (str_contains($this->message, $action)) $isAction = true;
+                if (str_contains($this->message, $action)) {
+                    $isAction = true;
+                }
             }
             Logging::write("----- IS ACTION -----: " . $this->message . $isAction);
 
