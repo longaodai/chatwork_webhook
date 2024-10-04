@@ -109,7 +109,7 @@ class ActionService
     private function callAssistant()
     {
         $geminiService = new Gemini();
-        
+        Logging::write("----- HERE ACTION -----");
         return $geminiService->sendRequest($this->message);
     }
 }
