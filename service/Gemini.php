@@ -41,14 +41,13 @@ class Gemini
             'Content-Type: application/json'
         );
         $response = cURL::post($url, json_encode($data), $headers);
-        $responseData = json_decode($response['response']);
-        Logging::write("-----xxxxxxxxxxxxx-----" . json_encode($responseData));
+        $responseData = json_decode($response['response'], true);
         
         if (!empty($responseData['error'])) {
             return $responseData['error']['message'];
         }
 
 
-        return $result->candidates[0]->content->parts[0]->text ?? "No response returned";
+        return $responseData->candidates[0]->content->parts[0]->text ?? "No response returned";
     }
 }
