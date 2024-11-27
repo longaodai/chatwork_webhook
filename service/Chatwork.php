@@ -24,13 +24,13 @@ class Chatwork
     public function handle(): string
     {
         $request = new Request();
-
-        if ($request->getMethod() == 'POST') {
+        $data = $request->all();
+        
+        if ($request->getMethod() == 'GET' || !empty($data['language'])) {
             include_once BASE_PATH . 'template/home.php';
             exit();
         }
 
-        $data = $request->all();
         $this->__setRoomId(!empty($data['webhook_event']['room_id']) ? $data['webhook_event']['room_id'] : CHAT_WORK_DEFAULT_ROOM_ID);
         $this->__setEndpointChatwork();
         Logging::write("----- DATA PAYLOAD -----: " . json_encode($data));
