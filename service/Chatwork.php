@@ -25,7 +25,7 @@ class Chatwork
     {
         $request = new Request();
 
-        if ($request->getMethod() == 'GET') {
+        if ($request->getMethod() == 'POST') {
             include_once BASE_PATH . 'template/home.php';
             exit();
         }
