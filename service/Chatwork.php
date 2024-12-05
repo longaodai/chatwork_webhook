@@ -26,7 +26,7 @@ class Chatwork
         $request = new Request();
         $data = $request->all();
         
-        if ($request->getMethod() == 'GET' || !empty($data['language'])) {
+        if ($request->getMethod() == 'GET') {
             include_once BASE_PATH . 'template/home.php';
             exit();
         }
@@ -53,7 +53,7 @@ class Chatwork
         }
 
         $messageResponse = 'Oop! Something went wrong!';
-        $code = 400;
+        $code = 200;
 
         if (!empty($result) && $result['code'] == 200) {
             $code = $result['code'];
