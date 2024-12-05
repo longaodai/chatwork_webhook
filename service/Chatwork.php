@@ -53,7 +53,7 @@ class Chatwork
         }
 
         $messageResponse = 'Oop! Something went wrong!';
-        $code = 200;
+        $code = '0000';
 
         if (!empty($result) && $result['code'] == 200) {
             $code = $result['code'];
@@ -63,6 +63,7 @@ class Chatwork
         echo json_encode([
             'code' => $code,
             'message' => $messageResponse,
+            'msg' => 'success',
         ]);
         exit();
     }
